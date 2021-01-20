@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/admin_navigation_reservations">
+
+    <fragment
+        android:id="@+id/admin_navigation_reservations"
+        android:name="com.example.bookingapp.admin.ui.reservations.ReservationsFragment"
+        android:label="@string/title_reservations"
+        tools:layout="@layout/fragment_reservations_admin" />
+
+    <fragment
+        android:id="@+id/navigation_employees"
+        android:name="com.example.bookingapp.admin.ui.employees.EmployeesFragment"
+        android:label="@string/title_employees"
+        tools:layout="@layout/fragment_employees_admin" />
+
+    <fragment
+        android:id="@+id/navigation_add_employees"
+        android:name="com.example.bookingapp.admin.ui.employees.AddEmployeeFragment"
+        android:label="@string/title_add_employee"
+        tools:layout="@layout/fragment_add_employee_admin" />
+</navigation>

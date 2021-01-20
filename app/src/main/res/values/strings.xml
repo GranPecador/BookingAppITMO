@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">BookingApp</string>
+    <string name="title_reservations">Брони</string>
+    <string name="title_employees">Сотрудники</string>
+    <string name="title_add_employee">Изменить</string>
+    <string name="title_change_free_table">Освободить</string>
+    <string name="title_setting">Настройки</string>
+
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_waiter">MainActivity</string>
+    <string name="title_activity_user">MainActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="select_employee_hint_text">Выберите сотрудника</string>
+    <string name="select_role_hint_text">Выберите роль</string>
+    <string name="select_number_table_hint">Стол</string>
+</resources>

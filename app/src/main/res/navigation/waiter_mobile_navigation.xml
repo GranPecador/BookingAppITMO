@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_reservation_waiter">
+
+    <fragment
+        android:id="@+id/navigation_reservation_waiter"
+        android:name="com.example.bookingapp.waiter.ui.reservations.ReservationsFragment"
+        android:label="@string/title_reservations"
+        tools:layout="@layout/fragment_reservations_waiter" />
+
+    <fragment
+        android:id="@+id/navigation_tables"
+        android:name="com.example.bookingapp.waiter.ui.table.TableFragment"
+        android:label="@string/title_change_free_table"
+        tools:layout="@layout/fragment_table" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.bookingapp.waiter.ui.settings.SettingsFragment"
+        android:label="@string/title_setting"
+        tools:layout="@layout/fragment_notifications" />
+</navigation>
