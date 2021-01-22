@@ -8,8 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bookingapp.R
 import com.example.bookingapp.models.Restaurant
 
-class RestaurantCardAdapterRecyclerView(val items: MutableList<Restaurant> = mutableListOf()) :
+class RestaurantCardAdapterRecyclerView(val items: MutableList<Restaurant> = mutableListOf(),
+                                        var mListenerRestaurant: RestaurantsFragment.OnSelectRestaurantListener? = null
+) :
     RecyclerView.Adapter<RestaurantCardAdapterRecyclerView.RestaurantViewHolder>(){
+//    private val mOnClickListener: View.OnClickListener
+
+//    init {
+//        mOnClickListener = View.OnClickListener { v ->
+//            val item = v.tag as Restaurant
+//            // Notify the active callbacks interface (the activity, if the fragment is attached to
+//            // one) that an item has been selected.
+//            mListenerRestaurant?.onSelect(item.id)
+//        }
+//    }
+
+    fun setListener(listener: RestaurantsFragment.OnSelectRestaurantListener?){
+        mListenerRestaurant = listener
+    }
 
     init{
         notifyDataSetChanged()
@@ -40,6 +56,9 @@ class RestaurantCardAdapterRecyclerView(val items: MutableList<Restaurant> = mut
         position: Int
     ) {
         holder.nameView.text = items[position].name
+        holder.itemView.setOnClickListener{
+            mListenerRestaurant?.onSelect(items[position].id)
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -48,7 +67,7 @@ class RestaurantCardAdapterRecyclerView(val items: MutableList<Restaurant> = mut
         super.onAttachedToRecyclerView(recyclerView)
     }
 
-    data class RestaurantViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView = itemView.findViewById<TextView>(R.id.name_restaurant_text)
     }
 }

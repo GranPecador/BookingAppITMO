@@ -43,8 +43,8 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
         holder.idView.text = "Номер брони: ${item.id}"
         holder.tableView.text = "Стол ${item.numberName}"
         try {
-            holder.startTimeView.text = "c ${getDateString(item.dateStartReservation.toInt())}"
-            holder.endTimeView.text = " до ${getDateString(item.dateEndReservation.toInt())}"
+            holder.startTimeView.text = "c ${item.dateStartReservation?.let { getDateString(it.toInt()) }}"
+            holder.endTimeView.text = " до ${item.dateEndReservation?.let { getDateString(it.toInt()) }}"
         } catch (e: Exception) {
             Log.e("Error date", e.toString())
         }

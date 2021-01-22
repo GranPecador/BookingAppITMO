@@ -33,6 +33,7 @@ class ReservationsFragment : Fragment() {
             adapter = viewModel.reservationAdapter
             isNestedScrollingEnabled = false
         }
+        viewModel.getReservationsFromServer(requireContext())
         return root
     }
 }

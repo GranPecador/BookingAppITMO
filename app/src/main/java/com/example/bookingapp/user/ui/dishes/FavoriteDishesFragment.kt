@@ -22,10 +22,7 @@ class FavoriteDishesFragment : Fragment() {
     favoriteDishesViewModel =
             ViewModelProvider(this).get(FavoriteDishesViewModel::class.java)
     val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-    val textView: TextView = root.findViewById(R.id.text_dashboard)
-    favoriteDishesViewModel.text.observe(viewLifecycleOwner, Observer {
-      textView.text = it
-    })
+
     return root
   }
 }
