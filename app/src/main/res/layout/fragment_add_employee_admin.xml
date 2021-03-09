@@ -152,20 +152,21 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:id="@+id/table_number_change_table_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:ems="10"
                 android:hint="Введите номер стола">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/table_number_change_table_edit"
+                <AutoCompleteTextView
+                    android:id="@+id/table_number_change_table_exposed_dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="numberDecimal"
-                    android:maxLength="7"
-                    android:maxLines="1" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none|textNoSuggestions|textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button

@@ -14,13 +14,53 @@ interface MethodsApi {
     @POST("/login")
     suspend fun postLogin(@Body loginPerson: LoginPerson): Response<Void>
 
-
-    @GET("/admins/{adminId}/reservations")
-    suspend fun getReservationsByAdmin(@Path("adminId") adminId: Int): Response<List<Reservation>>
+    @GET("/users/profile")
+    suspend fun getUserInfo(@Header("Authorization") auth: String): Response<UserInfo>
 
     @GET("/users/{userId}/reservations")
     suspend fun getReservationsByUser(@Path("userId") userId: Int): Response<List<Reservation>>
 
     @POST("/users/{userId}/reserve")
-    suspend fun postReserve(@Path("userId") userId: Int, @Body newReservation: NewReservation): Response<Void>
+    suspend fun postReserve(
+        @Path("userId") userId: Int,
+        @Body newReservation: NewReservation
+    ): Response<Void>
+
+    @GET("/restaurants")
+    suspend fun getRestaurants(): Response<List<Restaurant>>
+
+    @GET("/restaurants/{restaurantId}")
+    suspend fun getReservationsByRestaurant(@Path("restaurantId") restaurantId: Int): Response<Restaurant>
+
+    @GET("/restaurants/{restaurantId}/{userId}/tables")
+    suspend fun getTablesByEmployee(
+        @Path("restaurantId") restaurantId: Int,
+        @Path("userId") userId: Int
+    ): Response<List<Table>>
+
+    @GET("/restaurants/{restaurantId}/tables")
+    suspend fun getTablesByRestaurant(
+        @Path("restaurantId") restaurantId: Int,
+    ): Response<List<Table>>
+
+    @PUT("/restaurants/{restaurantId}/tables/changeStatus")
+    suspend fun putNewStatusOfTable(
+        @Path("restaurantId") restaurantId: Int,@Query("isFree") isFree: Boolean,
+        @Query("tableId") tableId: Int
+    ): Response<Table>
+
+    @POST("/restaurants/{restaurantId}/tables/assign")
+    suspend fun postUpdateAssociateTable(
+        @Path("restaurantId") restaurantId: Int,
+        @Query("tableId") tableId: Int, @Query("userId") userId: Int
+    ): Response<Void>
+
+    @GET("/restaurants/{restaurantId}/workers")
+    suspend fun getEmployeesByRestaurant(@Path("restaurantId") restaurantId: Int): Response<List<Employee>>
+
+    @POST("/restaurants/{restaurantId}/workers/add")
+    suspend fun postAddEmployee(
+        @Path("restaurantId") restaurantId: Int,
+        @Body userInfo: UserInfo
+    ): Response<Void>
 }

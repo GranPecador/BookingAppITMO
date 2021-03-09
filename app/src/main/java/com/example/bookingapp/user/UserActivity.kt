@@ -1,33 +1,39 @@
 package com.example.bookingapp.user
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.bookingapp.LoginActivity
-import com.example.bookingapp.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.bookingapp.*
 
 class UserActivity : AppCompatActivity() {
+
+    private val userViewModel: UserViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
-        val navView: BottomNavigationView = findViewById(R.id.user_nav_view)
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.user_refresh)
+        swipeRefreshLayout.setOnRefreshListener {
+            userViewModel.updateData(applicationContext)
+            swipeRefreshLayout.isRefreshing = false
+        }
+        swipeRefreshLayout.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
+    }
 
-        val navController = findNavController(R.id.user_nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.user_navigation_reservations, R.id.user_navigation_favorite_dishes, R.id.user_navigation_
-        ))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+    override fun onStart() {
+        super.onStart()
+        userViewModel.updateData(applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -40,6 +46,13 @@ class UserActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.exit -> {
+                val userInfoViewModel = ViewModelProvider(
+                    this,
+                    UserInfoViewModelFactory(UserInfoPreferencesRepository.getInstance(this))
+                ).get(UserInfoViewModel::class.java)
+                userInfoViewModel.setIdsInfo(-1, -1, -1, applicationContext)
+                userInfoViewModel.setAuth("", applicationContext)
+
                 val intent = Intent(this@UserActivity, LoginActivity::class.java)
                 startActivity(intent)
                 true

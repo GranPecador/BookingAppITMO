@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookingapp.R
-import com.example.bookingapp.admin.ui.AdminViewModel
+import com.example.bookingapp.admin.ui.ManagerViewModel
 
 class EmployeesFragment : Fragment() {
 
-    private val viewModel: AdminViewModel by activityViewModels()
+    private val viewModel: ManagerViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -23,7 +23,7 @@ class EmployeesFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_employees_admin, container, false)
         root.findViewById<RecyclerView>(R.id.employees_recycler).apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = viewModel.employeesAdapter
+            adapter = viewModel.employeesAdapterRecycler
         }
 
         return root

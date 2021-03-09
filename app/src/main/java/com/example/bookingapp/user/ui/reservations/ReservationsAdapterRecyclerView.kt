@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookingapp.R
 import com.example.bookingapp.models.Reservation
+import com.example.bookingapp.user.UserViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,14 +41,23 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
 
     override fun onBindViewHolder(holder: ReservationViewHolder, position: Int) {
         val item = items[position]
-        holder.restaurantView.text = item.restaurantId.toString()
+        val names = UserViewModel.restaurants.filter { it.id == item.restaurantId}
+        holder.restaurantView.text = if (names.isEmpty()) "..." else names[0].name
         holder.idView.text = "Номер брони: ${item.id}"
         holder.tableView.text = "Стол ${item.numberName}"
-        try {
-            holder.startTimeView.text = "c ${item.dateStartReservation?.let { getDateString(it.toInt()) }}"
-            holder.endTimeView.text = " до ${item.dateEndReservation?.let { getDateString(it.toInt()) }}"
-        } catch (e: Exception) {
-            Log.e("Error date", e.toString())
+        val start = item.dateStartReservation
+        val end = item.dateEndReservation
+        if ((start != null) && (end != null)) {
+            try {
+                holder.startTimeView.text = "c ${getDateString(start.toInt())}"
+                holder.endTimeView.text =
+                    " до ${getDateString(end.toInt())}"
+            } catch (e: Exception) {
+                Log.e("Error date", e.toString())
+            }
+        } else {
+            holder.startTimeView.visibility = View.GONE
+            holder.endTimeView.visibility = View.GONE
         }
         if (items[position].order == null) {
             holder.orderView.visibility = View.GONE

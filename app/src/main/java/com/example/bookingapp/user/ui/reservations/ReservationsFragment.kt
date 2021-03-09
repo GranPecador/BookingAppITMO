@@ -6,25 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookingapp.R
 import com.example.bookingapp.user.NewReservationActivity
+import com.example.bookingapp.user.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ReservationsFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: UserViewModel  by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_reservations_user, container, false)
+        activity?.title = getString(R.string.title_reservations)
         root.findViewById<FloatingActionButton>(R.id.new_reservation_floating_action_button).setOnClickListener {
             startActivity(Intent(context, NewReservationActivity::class.java))
         }
@@ -33,7 +33,6 @@ class ReservationsFragment : Fragment() {
             adapter = viewModel.reservationAdapter
             isNestedScrollingEnabled = false
         }
-        viewModel.getReservationsFromServer(requireContext())
         return root
     }
 }

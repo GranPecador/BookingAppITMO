@@ -42,13 +42,19 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
         val item = items[position]
         holder.idView.text = "Номер брони: ${item.id}"
         holder.tableView.text = "Стол ${item.numberName}"
-        try {
-            holder.startTimeView.text = "c ${item.dateStartReservation?.toInt()?.let {
-                getDateString(it)
-            }}"
-            holder.endTimeView.text = " до ${item.dateEndReservation?.let { getDateString(it?.toInt()) }}"
-        } catch (e: Exception) {
-            Log.e("Error date", e.toString())
+        val start = item.dateStartReservation
+        val end = item.dateEndReservation
+        if ((start != null) && (end != null)) {
+            try {
+                holder.startTimeView.text = "c ${getDateString(start.toInt())}"
+                holder.endTimeView.text =
+                    " до ${getDateString(end.toInt())}"
+            } catch (e: Exception) {
+                Log.e("Error date", e.toString())
+            }
+        } else {
+            holder.startTimeView.visibility = View.GONE
+            holder.endTimeView.visibility = View.GONE
         }
         if (items[position].order == null) {
             holder.orderView.visibility = View.GONE

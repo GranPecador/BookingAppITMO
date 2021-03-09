@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookingapp.R
-import com.example.bookingapp.admin.ui.AdminViewModel
+import com.example.bookingapp.admin.ui.ManagerViewModel
 
 class ReservationsFragment : Fragment() {
 
-    private val viewModel: AdminViewModel by activityViewModels()
+    private val viewModel: ManagerViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,

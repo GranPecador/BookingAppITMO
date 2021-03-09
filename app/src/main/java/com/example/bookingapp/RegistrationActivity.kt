@@ -2,8 +2,10 @@ package com.example.bookingapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.bookingapp.models.RegisterPerson
 import com.example.bookingapp.net.NetClient
@@ -17,9 +19,17 @@ import java.io.IOException
 
 class RegistrationActivity : AppCompatActivity() {
 
+    lateinit var userInfoViewModel: UserInfoViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+
+        userInfoViewModel = ViewModelProvider(
+            this,
+            UserInfoViewModelFactory(UserInfoPreferencesRepository.getInstance(this))
+        ).get(UserInfoViewModel::class.java)
+
         val loginEdit = findViewById<TextInputEditText>(R.id.registration_login_edt)
         val passwordEdit = findViewById<TextInputEditText>(R.id.registration_password_edt)
         val phoneEdit = findViewById<TextInputEditText>(R.id.registration_telephone_edt)
@@ -52,7 +62,7 @@ class RegistrationActivity : AppCompatActivity() {
                 nameEdit.requestFocus()
                 return@setOnClickListener
             }
-            lifecycleScope.launch((Dispatchers.Main)) {
+            lifecycleScope.launch(Dispatchers.Main) {
                 try {
                     val response = withContext(Dispatchers.IO) {
                         NetClient.instance.postRegister(
@@ -65,14 +75,20 @@ class RegistrationActivity : AppCompatActivity() {
                         )
                     }
                     if (response.isSuccessful) {
-                        val intent =
-                            Intent(
-                                this@RegistrationActivity,
-                                UserActivity::class.java
-                            )
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        val body = response.body()
+                        val id = body?.id ?: -1
+                        val role = body?.role ?: ROLE.USER
+                        val restaurantId = -1
+                        userInfoViewModel.setIdsInfo(
+                            id,
+                            role.ordinal,
+                            restaurantId,
+                            applicationContext
+                        )
+                        Log.e("role", body?.role.toString())
+                        //Log.e("restaurantId",  body?.restaurantId.toString())
+
+                        openActivity()
                     } else {
                         Toast.makeText(
                             applicationContext,
@@ -80,7 +96,7 @@ class RegistrationActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                }catch (e: IOException) {
+                } catch (e: IOException) {
                     Toast.makeText(
                         applicationContext,
                         "Повторите попытку",
@@ -89,5 +105,14 @@ class RegistrationActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun openActivity() {
+        val intent = Intent(
+            applicationContext,
+            UserActivity::class.java
+        )
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

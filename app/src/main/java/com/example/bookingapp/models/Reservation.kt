@@ -9,4 +9,5 @@ data class Reservation(
     @SerializedName("dateEndReservation") val dateEndReservation: Long? = null,
     @SerializedName("order") val order: Int? = null,
     @SerializedName("restaurantId") val restaurantId: Int,
+    @SerializedName("userId") val userId:Int = -1
 )

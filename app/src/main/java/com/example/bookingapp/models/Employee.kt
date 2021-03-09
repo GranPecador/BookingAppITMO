@@ -1,7 +1,10 @@
 package com.example.bookingapp.models
 
-import java.lang.reflect.TypeVariable
+import com.example.bookingapp.ROLE
+import com.google.gson.annotations.SerializedName
 
-data class Employee (val name: String, val tableName: Int){
 
-}
+data class Employee (@SerializedName("fullname") val name: String,
+                     @SerializedName("id") val id: Int,
+                     @SerializedName("role") val role : ROLE = ROLE.USER
+)
