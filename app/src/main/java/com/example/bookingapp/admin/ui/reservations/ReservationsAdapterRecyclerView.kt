@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookingapp.R
@@ -14,8 +15,14 @@ import java.util.*
 class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = mutableListOf()) :
     RecyclerView.Adapter<ReservationsAdapterRecyclerView.ReservationViewHolder>() {
 
+    private var listener: ReservationsFragment.OnCancelReservation? = null
+
     init {
         notifyDataSetChanged()
+    }
+
+    fun setListener(listener: ReservationsFragment.OnCancelReservation){
+        this.listener = listener
     }
 
     fun addItems(newItems: List<Reservation>) {
@@ -61,6 +68,9 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
         } else {
             holder.orderView.text = "Заказ:\n${item.order}"
         }
+        holder.cancelButton.setOnClickListener {
+            listener?.onCancelReservation(item.userId, item.id)
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -72,6 +82,7 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
             itemView.findViewById(R.id.start_reservatjion_time_text_view_item)
         val endTimeView: TextView = itemView.findViewById(R.id.end_reservation_time_text_view_item)
         val orderView: TextView = itemView.findViewById(R.id.order_reservation_text_view_item)
+        val cancelButton:Button = itemView.findViewById(R.id.cancel_reservation_button_item)
     }
 
 }

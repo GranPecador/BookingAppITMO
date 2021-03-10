@@ -26,6 +26,12 @@ interface MethodsApi {
         @Body newReservation: NewReservation
     ): Response<Void>
 
+    @GET("/users/{userId}/reservations/{reservationId}/cancel")
+    suspend fun getCancelReservation(
+        @Path("userId") userId: Int,
+        @Path("reservationId") reservationId: Int
+    ): Response<Void>
+
     @GET("/restaurants")
     suspend fun getRestaurants(): Response<List<Restaurant>>
 
@@ -45,7 +51,7 @@ interface MethodsApi {
 
     @PUT("/restaurants/{restaurantId}/tables/changeStatus")
     suspend fun putNewStatusOfTable(
-        @Path("restaurantId") restaurantId: Int,@Query("isFree") isFree: Boolean,
+        @Path("restaurantId") restaurantId: Int, @Query("isFree") isFree: Boolean,
         @Query("tableId") tableId: Int
     ): Response<Table>
 

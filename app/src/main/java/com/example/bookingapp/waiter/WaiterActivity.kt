@@ -13,14 +13,16 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bookingapp.*
+import com.example.bookingapp.waiter.ui.reservations.ReservationsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class WaiterActivity : AppCompatActivity() {
+class WaiterActivity : AppCompatActivity(), ReservationsFragment.OnCancelReservation {
+    private val viewModel: WaiterViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_waiter)
 
-        val viewModel: WaiterViewModel by viewModels()
         viewModel.createAdapters(applicationContext)
         viewModel.updateData(applicationContext)
 
@@ -71,5 +73,9 @@ class WaiterActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCancelReservation(userId: Int, reservationId: Int) {
+        viewModel.cancelReservation(userId, reservationId, applicationContext)
     }
 }

@@ -13,15 +13,17 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bookingapp.*
+import com.example.bookingapp.admin.ui.reservations.ReservationsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ManagerActivity : AppCompatActivity() {
+class ManagerActivity : AppCompatActivity(), ReservationsFragment.OnCancelReservation {
+
+    private val managerViewModel: ManagerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
-        val managerViewModel: ManagerViewModel by viewModels()
         managerViewModel.createAdapters(applicationContext)
         managerViewModel.updateData(applicationContext)
 
@@ -72,5 +74,9 @@ class ManagerActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCancelReservation(userId: Int, reservationId: Int) {
+        managerViewModel.cancelReservation(userId, reservationId, applicationContext)
     }
 }

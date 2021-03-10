@@ -58,7 +58,9 @@ class WaiterViewModel() : ViewModel() {
                     NetClient.instance.getReservationsByRestaurant(restaurantId)
                 }
                 if (response.isSuccessful) {
-                    response.body()?.let { reservationAdapter.addItems(it.reservations)}
+                    response.body()?.let {
+                        reservationAdapter.addItems(it.reservations)
+                    }
                 } else {
                     Toast.makeText(
                         context,
@@ -152,7 +154,9 @@ class WaiterViewModel() : ViewModel() {
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 NetClient.instance.putNewStatusOfTable(
-                    UserInfoPreferencesRepository.getInstance(context).userInfoPreferencesFlow.first().restaurantId,isFree, tableId
+                    UserInfoPreferencesRepository.getInstance(context).userInfoPreferencesFlow.first().restaurantId,
+                    isFree,
+                    tableId
                 )
             }
             if (response.isSuccessful) {
@@ -161,6 +165,30 @@ class WaiterViewModel() : ViewModel() {
                 Toast.makeText(
                     context,
                     "Не получилось загрузить статусы столов, обновите страницу",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    fun cancelReservation(userId: Int, reservationId: Int, context: Context) {
+        viewModelScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    NetClient.instance.getCancelReservation(
+                        userId, reservationId
+                    )
+                }
+                if (response.isSuccessful) {
+                    getReservationsFromServer(context)
+                } else {
+                    Toast.makeText(context, "Не получилось отменить резервацию", Toast.LENGTH_LONG)
+                        .show()
+                }
+            } catch (e: IOException) {
+                Toast.makeText(
+                    context,
+                    "Не получилось подключиться к серверу. Повторите попытку.",
                     Toast.LENGTH_LONG
                 ).show()
             }

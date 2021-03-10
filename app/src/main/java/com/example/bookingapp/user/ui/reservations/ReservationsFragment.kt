@@ -31,7 +31,7 @@ class ReservationsFragment : Fragment() {
         root.findViewById<RecyclerView>(R.id.reservations_recycler_user).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModel.reservationAdapter
-            isNestedScrollingEnabled = false
+            isNestedScrollingEnabled = true
         }
         return root
     }
