@@ -37,7 +37,7 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
     }
 
     private val simpleDateFormat = SimpleDateFormat("H:mm dd.MM.yy", Locale.getDefault())
-    private fun getDateString(time: Int): String = simpleDateFormat.format(time * 1000L)
+    private fun getDateString(time: Long): String = simpleDateFormat.format(time)
 
     override fun onBindViewHolder(holder: ReservationViewHolder, position: Int) {
         val item = items[position]
@@ -49,9 +49,9 @@ class ReservationsAdapterRecyclerView(val items: MutableList<Reservation> = muta
         val end = item.dateEndReservation
         if ((start != null) && (end != null)) {
             try {
-                holder.startTimeView.text = "c ${getDateString(start.toInt())}"
+                holder.startTimeView.text = "c ${getDateString(start)}"
                 holder.endTimeView.text =
-                    " до ${getDateString(end.toInt())}"
+                    " до ${getDateString(end)}"
             } catch (e: Exception) {
                 Log.e("Error date", e.toString())
             }

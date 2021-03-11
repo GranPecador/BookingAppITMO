@@ -70,6 +70,7 @@ class UserViewModel : ViewModel() {
                     NetClient.instance.getRestaurants()
                 }
                 if (response.isSuccessful) {
+                    restaurants.clear()
                     val body = response.body()
                     body?.let{
                         restaurants.addAll(it)

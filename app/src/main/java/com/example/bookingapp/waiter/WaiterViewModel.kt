@@ -21,10 +21,10 @@ import java.io.IOException
 
 class WaiterViewModel() : ViewModel() {
 
-    private val listReservations = mutableListOf(
-        Reservation(0, 5, 555, 9999, 5, 4),
-        Reservation(1, 8, 5555, 99799, 6, 8),
-        Reservation(2, 5, 55555, 999944, null, 8)
+    private val listReservations = mutableListOf<Reservation>(
+//        Reservation(0, 5, 555, 9999, 5, 4),
+//        Reservation(1, 8, 5555, 99799, 6, 8),
+//        Reservation(2, 5, 55555, 999944, null, 8)
     )
     private val listTable = mutableListOf(5, 10)
 
